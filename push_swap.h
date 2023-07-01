@@ -6,7 +6,7 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 16:43:05 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/06/29 18:50:41 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/07/01 19:12:01 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,12 @@ l_list	*find_highest(l_list *stack_a);
 /*Sorting functions*/
 int		is_sorted(l_list *list);
 void	push_swap(l_list **stack_a, l_list **stack_b);
-void	small_sort(l_list **stack);
+void	small_sort(l_list **stack_a, l_list **stack_b);
 /*Move Functions*/
-void	swap(l_list **list, char *stack);
-void	rotate(l_list	**list, char *stack);
-void	rrotate(l_list	**list, char *stack);
+void	swap(l_list **list);
+void	rotate(l_list	**list);
+void	rrotate(l_list	**list);
+void	push(l_list **src, l_list **dest, char *stack);
+void	cmd(l_list **stack_a, l_list **stack_b, char *move);
 
 #endif

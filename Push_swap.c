@@ -6,7 +6,7 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 16:42:51 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/06/28 18:19:13 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/07/01 20:13:52 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,13 @@ int main (int argc, char **argv)
 	begin = stack_a;
 	while (begin)
 	{
-		printf("%d\n", begin->data);
+		printf("a = %d\n", begin->data);
+		begin = begin->next;
+	}
+	begin = stack_b;
+	while (begin)
+	{
+		printf("b = %d\n", begin->data);
 		begin = begin->next;
 	}
 	ft_lstclearer(&stack_a);

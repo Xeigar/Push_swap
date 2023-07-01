@@ -6,30 +6,31 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:45:27 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/06/29 18:54:40 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/07/01 19:57:44 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	swap(l_list **list, char *stack)
+void	swap(l_list **list)
 {
 	l_list *temp;
 
+	if (!(*list)->next)
+		return;
 	temp = (*list)->next;
 	(*list)->next = temp->next;
 	temp->next = (*list);
 	(*list) = temp;
-	
-	ft_putstr_fd(stack, 1);
-	ft_putstr_fd("\n", 1);
 }
 
-void	rotate(l_list	**list, char *stack)
+void	rotate(l_list	**list)
 {
 	l_list	*temp;
 	l_list	*last;
 
+	if (!(*list)->next)
+		return;
 	temp = *list;
 	*list = (*list)->next;
 	last = *list;
@@ -37,27 +38,54 @@ void	rotate(l_list	**list, char *stack)
 		last = last->next;
 	last->next = temp;	
 	temp->next = NULL;
-	
-	ft_putstr_fd(stack, 1);
-	ft_putstr_fd("\n", 1);
 }
 
-void	rrotate(l_list	**list, char *stack)
+void	rrotate(l_list	**list)
 {
 	l_list	*last;
 
+	if (!(*list)->next)
+		return;
 	last = *list;
 	while (last->next->next)
 		last = last->next;
 	last->next->next = *list;
 	(*list) = last->next;
 	last->next = NULL;
-	
+}
+
+void	push(l_list **src, l_list **dest, char *stack)
+{
+	l_list	*temp;
+
+	temp = *src;
+	*src = (*src)->next;
+	temp->next = *dest;
+	*dest = temp;
 	ft_putstr_fd(stack, 1);
 	ft_putstr_fd("\n", 1);
 }
 
-void	push(l_list **list_a, l_list **list_b, char *stack)
+void	cmd(l_list **stack_a, l_list **stack_b, char *move)
 {
-	
+	void (*func)(l_list **);
+
+	if (move[0] == 's')
+		func = &swap;
+	else if (move[0] == 'r' && move[2] != 'r')
+		func = &rotate;
+	else
+		func = &rrotate;
+	if (move[1] == 'a' || move[2] == 'a')
+		func(stack_a);
+	if (move[1] == 'b' || move[2] == 'b')
+		func(stack_b);
+	if (move[1] == 's' || (move[0] == 'r' && move[1] == 'r' && !move[2])
+		|| move[2] == 'r')
+	{
+		func(stack_a);
+		func(stack_b);
+	}
+	ft_putstr_fd(move, 1);
+	ft_putstr_fd("\n", 1);
 }

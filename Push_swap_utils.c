@@ -6,7 +6,7 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 19:58:46 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/06/29 18:57:41 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/07/01 20:01:04 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,34 +88,60 @@ int	is_sorted(l_list *list)
 	return (1);
 }
 
-l_list	*find_highest(l_list *stack_a)
+l_list	*find_highest(l_list *stack)
 {
 	l_list	*highest;
 
-	highest = NULL;
-	while (stack_a)
+	highest = stack;
+	while (stack)
 	{
-		if (stack_a->data > highest->data)
-			highest = stack_a;
-		stack_a = stack_a->next;
+		if (stack->data > highest->data)
+			highest = stack;
+		stack = stack->next;
 	}
 	return (highest);
 }
 
-/*void	small_sort(l_list **stack)
+
+void	small_sort(l_list **stack_a, l_list **stack_b)
 {
 	l_list	*highest;
 
-	highest = find_highest(*stack);
-	if (*stack == )
-}*/
+	highest = find_highest(*stack_a);
+	if (*stack_a == highest)
+		cmd(stack_a, stack_b, "ra");
+	if ((*stack_a)->data > (*stack_a)->next->data)
+		cmd(stack_a, stack_b, "sa");
+	else
+		cmd(stack_a, stack_b, "rra");
+}
+
+void	big_sort(l_list **stack_a, l_list **stack_b)
+{
+	l_list	*temp;
+
+	temp = *stack_a;
+	while(temp->next->next->next)
+	{
+		push(stack_a, stack_b, "pb");
+		temp = *stack_a;
+	}
+	small_sort(stack_a, stack_b);
+	while (*stack_b)
+	{
+		if ((*stack_a)->data > (*stack_b)->data && *stack_b)
+			push(stack_b, stack_a, "pa");
+		else
+			cmd(stack_a, stack_b, "rr");
+	}
+}
 
 void	push_swap(l_list **stack_a, l_list **stack_b)
 {
-	(void)stack_b;
 	if (list_size(*stack_a) == 2)
-		rrotate(stack_a, "rra");
-		//swap(stack_a, "sa");
-	//if (list_size(*stack_a) == 3)
-	//	small_sort(stack_a);
+		cmd(stack_a, stack_b, "sa");
+	else if (list_size(*stack_a) == 3)
+		small_sort(stack_a, stack_b);
+	else
+		big_sort(stack_a, stack_b);
 }
