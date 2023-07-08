@@ -6,7 +6,7 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 19:58:46 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/07/07 00:55:09 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/07/08 19:47:08 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,16 +75,12 @@ long	ft_long_atoi(const char *nptr)
 
 int	is_sorted(l_list *list)
 {
-	l_list	*first;
-
-	first = list;
 	while (list->next)
 	{
 		if (list->data > list->next->data)
 			return (-1);
 		list = list->next;
 	}
-	ft_lstclearer(&first);
 	return (1);
 }
 
@@ -110,10 +106,10 @@ void	small_sort(l_list **stack_a, l_list **stack_b)
 	highest = find_highest(*stack_a);
 	if (*stack_a == highest)
 		cmd(stack_a, stack_b, "ra");
+	else if ((*stack_a)->next == highest)
+		cmd(stack_a, stack_b, "rra");
 	if ((*stack_a)->data > (*stack_a)->next->data)
 		cmd(stack_a, stack_b, "sa");
-	else
-		cmd(stack_a, stack_b, "rra");
 }
 
 l_list	*find_lowest(l_list *stack)
@@ -159,59 +155,35 @@ void	ordering(l_list **stack_a)
 	
 }
 
-/**This function finds the position of the closest number of the partition
-and sends it to stack_b with the least amount of move**/
-void	finder_pusher(l_list **stack_a, l_list **stack_b, int partition)
-{
-	l_list	*temp;
-	int		a;
-	int		b;
-
-	temp = *stack_a;
-	a = 0;
-	b = 0;
-	while (temp)
-	{
-		if (a == 0 && temp->order <= partition)	
-			a = temp->order;
-		if (temp->order < partition)
-			b = temp->order;
-		temp = temp->next;
-	}
-	if (a <= (list_size(*stack_a) - b))
-	{
-		while ((*stack_a)->order != a)
-			cmd(stack_a, stack_b, "rra");
-	}
-	else
-	{
-		while ((*stack_a)->order != b)
-			cmd(stack_a, stack_b, "ra");
-	}
-	push(stack_a, stack_b, "pb");
-}
-
 void	big_sort(l_list **stack_a, l_list **stack_b)
 {
-	//l_list	*temp;
-	int		partition;
-	int		counter;
-	int		runner;
-
-	//temp = *stack_a;
 	ordering(stack_a);
-	if (list_size(*stack_a) <= 100)
-		partition = 4;
-	else
-		partition = 8;
-	runner = 0;
-	while (++runner < partition)
+	push(stack_a, stack_b, "pb");
+	push(stack_a, stack_b, "pb");
+	while (list_size(*stack_a) != 3)
 	{
-		counter = -1;
-		printf("%d\n", list_size(*stack_a)/ partition);
-		while (++counter < ((list_size(*stack_a)/ partition) * runner))
-			finder_pusher(stack_a, stack_b, list_size(*stack_a)/ partition); /*Need to
-			to revise the partition variable it is not working in the finder_pusher*/
+		if ((*stack_a)->order < (*stack_b)->order)
+		{
+			cmd(stack_a, stack_b, "rra");
+			push(stack_a, stack_b, "pb");
+		}
+		else
+			push(stack_a, stack_b, "pb");
+	}
+	small_sort(stack_a, stack_b);
+	printf(" -----------\ndone small sort\n -----------\n");
+	while(*stack_b)
+	{
+		if ((*stack_a)->order > (*stack_b)->order)
+		{
+			push(stack_b, stack_a, "pa");
+		}
+		else
+		{
+			while ((*stack_a)->order < (*stack_b)->order && (*stack_a)->next->order > (*stack_b)->order)
+				cmd(stack_a, stack_b, "rra");
+			push(stack_b, stack_a, "pa");	
+		}
 	}
 }
 

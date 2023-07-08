@@ -6,7 +6,7 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:45:27 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/07/01 19:57:44 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/07/08 18:36:49 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ void	cmd(l_list **stack_a, l_list **stack_b, char *move)
 
 	if (move[0] == 's')
 		func = &swap;
-	else if (move[0] == 'r' && move[2] != 'r')
-		func = &rotate;
-	else
+	else if (move[0] == 'r' && move[2])
 		func = &rrotate;
+	else
+		func = &rotate;
 	if (move[1] == 'a' || move[2] == 'a')
 		func(stack_a);
 	if (move[1] == 'b' || move[2] == 'b')
