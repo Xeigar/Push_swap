@@ -6,7 +6,7 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 16:43:05 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/07/01 19:12:01 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/07/04 11:41:54 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 typedef struct f_list
 {
 	int		data;
-	int		pos;
+	int		order;
 	struct f_list	*next;
 }	l_list;
 
