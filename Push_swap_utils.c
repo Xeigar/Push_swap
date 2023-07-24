@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Push_swap_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
+/*   By: tmoutinh <tmoutinh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 19:58:46 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/07/20 22:47:08 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/07/24 17:25:28 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,11 @@ void	ordering(l_list **stack_a)
 	
 }
 
+// void	chaser (l_list **stack, l_list *comp)
+// {
+// 	if ()
+// }
+
 /*Optimize the pushing to B part of the function by working with Max
 and Min, as well as count the number of rrb and rb*/
 void	b_filler(l_list	**stack_a, l_list **stack_b)
@@ -172,23 +177,43 @@ void	b_filler(l_list	**stack_a, l_list **stack_b)
 	high = find_highest (*stack_b);
 	while (list_size(*stack_a) != 3)
 	{
-		if ((*stack_a)->order > high->order)
+		if (!(*stack_b)->next)
+	 		push(stack_a, stack_b, "pb");
+		if ((*stack_a)->order < high->order)
 		{	
-			while ((*stack_b) != high)
-				cmd(stack_a, stack_b, "rb");
+		//printf("Choice 1\n");
+		while ((*stack_a) != low)
 			cmd(stack_a, stack_b, "rb");
-			push(stack_a, stack_b, "pb");
+		push(stack_b, stack_a, "pb");
 		}
 		else if (low->order > (*stack_a)->order)
 		{
-			while ((*stack_b)->order != low->order)
-				cmd(stack_a, stack_b, "rb");
-			push(stack_a, stack_b, "pb");
+		//printf("Choice 2\n");
+		while ((*stack_b)->order != low->order)
+			cmd(stack_a, stack_b, "rb");
+		push(stack_b, stack_a, "pb");
 		}
 		else
-			push(stack_a, stack_b, "pb");
-		if (!(*stack_b)->next)
-			push(stack_a, stack_b, "pb");
+		{
+		//printf("Choice 3\n");
+		while ((*stack_a)->order < (*stack_b)->order || last_check(stack_a, (*stack_b)->order) != 0)
+			cmd(stack_a, stack_b, "rb");
+		push(stack_b, stack_a, "pb");
+		}
+	// 	if ((*stack_a)->order > high->order)
+	// 	{
+	// 		while ((*stack_b) != high)
+	// 			cmd(stack_a, stack_b, "rb");
+	// 		push(stack_a, stack_b, "pb");
+	// 	}
+	// 	else if (low->order > (*stack_a)->order)
+	// 	{
+	// 		while ((*stack_b)->order != low->order)
+	// 			cmd(stack_a, stack_b, "rb");
+	// 		push(stack_a, stack_b, "pb");
+	// 	}
+	// 	else
+	// 		push(stack_a, stack_b, "pb");
 	}
 }
 
@@ -265,25 +290,25 @@ void	big_sort(l_list **stack_a, l_list **stack_b)
 	small_sort(stack_a, stack_b);
 	//printf(" -----------\ndone small sort\n -----------\n");
 	while(*stack_b)
-	//Printer
 	{
+	//Printer
 		
-	// 	l_list	*begin;
-	// begin = *stack_a;
-	// printf("________________________\n");
-	// while (begin)
-	// {
-	// 	printf("a = %d\n", begin->data);
-	// 	printf("a->order = %d\n", begin->order);
-	// 	begin = begin->next;
-	// }
-	// begin = *stack_b;
-	// while (begin)
-	// {
-	// 	printf("b = %d\n", begin->data);
-	// 	begin = begin->next;
-	// }
-	// printf("________________________\n");
+		l_list	*begin;
+	begin = *stack_a;
+	printf("________________________\n");
+	while (begin)
+	{
+		printf("a = %ld\n", begin->data);
+		printf("a->order = %d\n", begin->order);
+		begin = begin->next;
+	}
+	begin = *stack_b;
+	while (begin)
+	{
+		printf("b = %ld\n", begin->data);
+		begin = begin->next;
+	}
+	printf("________________________\n");
 	//End Printer
 		case_select(stack_a, stack_b);
 	}

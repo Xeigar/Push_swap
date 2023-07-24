@@ -237,3 +237,32 @@ long	ft_long_atoi(const char *nptr)
 		return (-2147483649);
 	return (i * neg);
 }
+________________________________________X____________________________________
+V.1
+void	b_filler(l_list	**stack_a, l_list **stack_b)
+{
+	l_list	*low;
+	l_list	*high;
+
+	low = find_lowest(*stack_b);
+	high = find_highest (*stack_b);
+	while (list_size(*stack_a) != 3)
+	{
+		if ((*stack_a)->order > high->order)
+		{
+			while ((*stack_b) != high)
+				cmd(stack_a, stack_b, "rb");
+			push(stack_a, stack_b, "pb");
+		}
+		else if (low->order > (*stack_a)->order)
+		{
+			while ((*stack_b)->order != low->order)
+				cmd(stack_a, stack_b, "rb");
+			push(stack_a, stack_b, "pb");
+		}
+		else
+			push(stack_a, stack_b, "pb");
+		if (!(*stack_b)->next)
+			push(stack_a, stack_b, "pb");
+	}
+}
