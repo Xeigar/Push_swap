@@ -6,7 +6,7 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 16:42:51 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/07/20 22:51:25 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/07/26 19:33:42 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,21 @@ int main (int argc, char **argv)
 		return (1);
 	}
 	push_swap(&stack_a, &stack_b);
-	l_list	*begin;
-	begin = stack_a;
-	printf("________________________\n");
-	while (begin)
-	{
-		printf("a = %ld\n", begin->data);
-		printf("a->order = %d\n", begin->order);
-		begin = begin->next;
-	}
-	begin = stack_b;
-	while (begin)
-	{
-		printf("b = %ld\n", begin->data);
-		begin = begin->next;
-	}
+	// l_list	*begin;
+	// begin = stack_a;
+	// printf("________________________\n");
+	// while (begin)
+	// {
+	// 	printf("a = %ld\n", begin->data);
+	// 	printf("a->order = %d\n", begin->order);
+	// 	begin = begin->next;
+	// }
+	// begin = stack_b;
+	// while (begin)
+	// {
+	// 	printf("b = %ld\n", begin->data);
+	// 	begin = begin->next;
+	// }
 	ft_lstclearer(&stack_a);
 	return (0);
 }
