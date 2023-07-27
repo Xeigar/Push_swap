@@ -6,7 +6,7 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 19:58:46 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/07/26 22:11:55 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/07/27 19:19:36 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,6 @@ void	ordering(l_list **stack_a)
 		highest = next;
 	}
 	temp = *stack_a;
-	
 }
 
 void	chaser(l_list **stack_a, l_list **stack_b, l_list *comp)
@@ -167,6 +166,7 @@ void	chaser(l_list **stack_a, l_list **stack_b, l_list *comp)
 	int		i;
 
  	temp = *stack_b;
+	i = 0;
 	while (temp != comp)
 	{
 		temp = temp->next;
@@ -178,33 +178,68 @@ void	chaser(l_list **stack_a, l_list **stack_b, l_list *comp)
 		cmd(stack_a, stack_b, "rb");
 }
 
+void	occur(l_list **stack, int middle_value, int *i, int *j)
+{
+	l_list	*temp;
+	int		first;
+
+	temp = *stack;
+	first = 0;
+	while (temp)
+	{
+		if ((first == 0) && temp->order > middle_value)
+			i++;
+		else
+			first = 1;
+		if (temp->order < middle_value)
+			j = 0;
+		temp = temp->next;
+		j++;
+		printf("%d, %d\n", *i, *j);
+	}
+}
+
+void	find_next(l_list **stack, int middle_value)
+{
+	int i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	occur(stack, middle_value, &i, &j);
+	printf("%d, %d\n", i, j);
+	if (i <= (list_size(*stack) - j + 1))
+		cmd(stack, NULL, "ra");
+	else
+		cmd(stack, NULL, "rra");
+}
+
 /*Optimize the pushing to B part of the function by working with Max
 and Min, as well as count the number of rrb and rb*/
 void	b_filler(l_list	**stack_a, l_list **stack_b)
 {
-	l_list	*low;
-	l_list	*high;
-
-	low = find_lowest(*stack_b);
-	high = find_highest (*stack_b);
-	while (list_size(*stack_a) != 3)
+	int	counter;
+	int middle_value;
+	
+	middle_value = list_size(*stack_a) / 2; // 5 
+	while (list_size(*stack_a) > 2)
 	{
-		if ((*stack_a)->order > high->order)
+		counter = list_size(*stack_a) / 2; // 4
+		while (counter > 0)
 		{
-			while ((*stack_b) != high)
-				chaser(stack_a, stack_b, high);
-			push(stack_a, stack_b, "pb");
+			//printf("comparacao %d <= %d\n", (*stack_a)->order, middle_value);
+			//printf("%d\n", counter);
+			if ((*stack_a)->order <= middle_value)
+			{
+				push(stack_a, stack_b, "pb");
+				counter--;
+			}
+			else
+			{
+				find_next(stack_a, middle_value);
+			}
 		}
-		else if (low->order > (*stack_a)->order)
-		{
-			while ((*stack_b)->order != low->order)
-				chaser(stack_a, stack_b, low);
-			push(stack_a, stack_b, "pb");
-		}
-		else
-			push(stack_a, stack_b, "pb");
-		if (!(*stack_b)->next)
-			push(stack_a, stack_b, "pb");
+		middle_value = middle_value + list_size(*stack_a) / 2;
 	}
 }
 
@@ -225,6 +260,7 @@ void	finalizer(l_list **stack_a)
 	l_list	*temp;
 	int		i;
 
+	i = 0;
 	temp = *stack_a;
 	while (temp->order != 1)
 	{
@@ -293,7 +329,7 @@ void	case_select(l_list **stack_a, l_list **stack_b)
 void	big_sort(l_list **stack_a, l_list **stack_b)
 {
 	ordering(stack_a);
-	push(stack_a, stack_b, "pb");
+	//push(stack_a, stack_b, "pb");
 	b_filler(stack_a, stack_b);
 	small_sort(stack_a, stack_b);
 	//printf(" -----------\ndone small sort\n -----------\n");

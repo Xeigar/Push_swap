@@ -266,3 +266,32 @@ void	b_filler(l_list	**stack_a, l_list **stack_b)
 			push(stack_a, stack_b, "pb");
 	}
 }
+
+______________________________________X____________________________________________
+void	b_filler(l_list	**stack_a, l_list **stack_b)
+{
+	l_list	*low;
+	l_list	*high;
+
+	low = find_lowest(*stack_b);
+	high = find_highest (*stack_b);
+	while (list_size(*stack_a) != 3)
+	{
+/* 		if ((*stack_a)->order > high->order)
+		{
+			while ((*stack_b) != high)
+				chaser(stack_a, stack_b, high);
+			push(stack_a, stack_b, "pb");
+		}
+		else if (low->order > (*stack_a)->order)
+		{
+			while ((*stack_b)->order != low->order)
+				chaser(stack_a, stack_b, low);
+			push(stack_a, stack_b, "pb");
+		} */
+		//else
+		push(stack_a, stack_b, "pb");
+		//if (!(*stack_b)->next)
+		//	push(stack_a, stack_b, "pb");
+	}
+}
