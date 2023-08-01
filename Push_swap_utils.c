@@ -6,7 +6,7 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 19:58:46 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/07/27 19:19:36 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/08/01 19:54:45 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,92 +17,6 @@ void	exit_error(l_list *current)
 	ft_lstclearer(&current);
 	ft_putstr_fd("Error\n", 2);
 	exit(EXIT_FAILURE);
-}
-
-int	repeat_or_digit(int argc, char **argv, l_list *stack_a)
-{
-	int	i;
-	int	k;
-	l_list	*pos;
-	l_list	*runner;
-
-	i = 0;
-	pos = stack_a;
-	while (pos)
-	{
-		runner = stack_a;
-		while (runner)
-		{
-			if (runner->data == pos->data && 
-				runner != pos)
-				return (-1);
-			runner = runner->next;
-		}
-		pos = pos->next;
-	}
-	while (++i < argc)
-	{
-		k = -1;
-		while (argv[i][++k])
-		{
-			if (ft_isdigit(argv[i][k]) ==  0
-				&& (argv[i][k] != '+' && argv[i][k] != '-'))
-				return (-1);
-		}
-	}
-	return (0);
-}
-
-long	ft_long_atoi(const char *nptr)
-{
-	long	i;
-	long	neg;
-
-	i = 0;
-	neg = 1;
-	while (*nptr == 32 || (*nptr >= 9 && *nptr <= 13))
-		nptr++;
-	if (*nptr == '-' || *nptr == '+')
-	{
-		if (*nptr == '-')
-			neg *= (-1);
-		nptr++;
-	}
-	if (!(*nptr >= '0' && *nptr <= '9'))
-		return (-2147483649);
-	while (*nptr)
-	{
-		if (!(*nptr >= '0' && *nptr <= '9'))
-			return (-2147483649);
-		i = i * 10 + (*nptr - 48);
-		nptr++;
-	}
-	return (i * neg);
-}
-
-int	is_sorted(l_list *list)
-{
-	while (list->next)
-	{
-		if (list->data > list->next->data)
-			return (-1);
-		list = list->next;
-	}
-	return (1);
-}
-
-l_list	*find_highest(l_list *stack)
-{
-	l_list	*highest;
-
-	highest = stack;
-	while (stack)
-	{
-		if (stack->data > highest->data)
-			highest = stack;
-		stack = stack->next;
-	}
-	return (highest);
 }
 
 void	small_sort(l_list **stack_a, l_list **stack_b)
@@ -116,20 +30,6 @@ void	small_sort(l_list **stack_a, l_list **stack_b)
 		cmd(stack_a, stack_b, "rra");
 	if ((*stack_a)->data > (*stack_a)->next->data)
 		cmd(stack_a, stack_b, "sa");
-}
-
-l_list	*find_lowest(l_list *stack)
-{
-	l_list	*lowest;
-
-	lowest = stack;
-	while (stack)
-	{
-		if (stack->data < lowest->data)
-			lowest = stack;
-		stack = stack->next;
-	}
-	return (lowest);
 }
 
 /*This function orders the elements of the list from 1-n and 
@@ -160,23 +60,6 @@ void	ordering(l_list **stack_a)
 	temp = *stack_a;
 }
 
-void	chaser(l_list **stack_a, l_list **stack_b, l_list *comp)
-{
-	l_list	*temp;
-	int		i;
-
- 	temp = *stack_b;
-	i = 0;
-	while (temp != comp)
-	{
-		temp = temp->next;
-		i++;
-	}
-	if (i < list_size(*stack_b))
-		cmd(stack_a, stack_b, "rrb");
-	else
-		cmd(stack_a, stack_b, "rb");
-}
 
 void	occur(l_list **stack, int middle_value, int *i, int *j)
 {
@@ -188,14 +71,13 @@ void	occur(l_list **stack, int middle_value, int *i, int *j)
 	while (temp)
 	{
 		if ((first == 0) && temp->order > middle_value)
-			i++;
+			*i = *i + 1;
 		else
 			first = 1;
 		if (temp->order < middle_value)
-			j = 0;
+			*j = 0;
 		temp = temp->next;
-		j++;
-		printf("%d, %d\n", *i, *j);
+		*j = *j + 1;
 	}
 }
 
@@ -207,8 +89,7 @@ void	find_next(l_list **stack, int middle_value)
 	i = 0;
 	j = 0;
 	occur(stack, middle_value, &i, &j);
-	printf("%d, %d\n", i, j);
-	if (i <= (list_size(*stack) - j + 1))
+	if (i <= (j + 1))
 		cmd(stack, NULL, "ra");
 	else
 		cmd(stack, NULL, "rra");
@@ -227,17 +108,15 @@ void	b_filler(l_list	**stack_a, l_list **stack_b)
 		counter = list_size(*stack_a) / 2; // 4
 		while (counter > 0)
 		{
-			//printf("comparacao %d <= %d\n", (*stack_a)->order, middle_value);
-			//printf("%d\n", counter);
+			if (is_sorted(*stack_a) == 1)
+				return;
 			if ((*stack_a)->order <= middle_value)
 			{
 				push(stack_a, stack_b, "pb");
 				counter--;
 			}
 			else
-			{
 				find_next(stack_a, middle_value);
-			}
 		}
 		middle_value = middle_value + list_size(*stack_a) / 2;
 	}
@@ -295,6 +174,63 @@ char	*get_cmd(l_list *stack, l_list *find) //Need to implement on case_select!
 		return ("rra");
 }
 
+void	chaser(l_list **stack_a, l_list **stack_b, l_list *comp)
+{
+	l_list	*temp;
+	int		i;
+
+ 	temp = *stack_a;
+	i = 0;
+	while (temp != comp)
+	{
+		temp = temp->next;
+		i++;
+	}
+	while ((*stack_a) != comp)
+	{
+		if (i <= list_size(*stack_a) / 2)
+			cmd(stack_a, stack_b, "ra");
+		else
+			cmd(stack_a, stack_b, "rra");
+	}
+}
+
+l_list	*get_last(l_list *stack)
+{
+	while (stack->next)
+		stack = stack->next;
+	return (stack);
+}
+
+//This function has a problem sorting, it puts a bigger bar above a smaller one
+void	middle_chase(l_list **stack_a, l_list **stack_b)
+{
+	l_list	*temp;
+	l_list	*comp;
+	l_list	*last;
+	int		i;
+
+	temp = *stack_a;
+	i = 0;
+	last = get_last(*stack_a);
+	if ((*stack_a)->order > (*stack_b)->order && last->order < (*stack_b)->order)
+		return;
+	while (temp->next->next && !((temp->order < (*stack_b)->order)
+		&& (temp->next->order > (*stack_b)->order)))
+	{
+		temp = temp->next;
+		i++;	
+	}
+	comp = temp->next;
+	while ((*stack_a) != comp)
+	{
+		if (i  <= list_size(*stack_a) / 2)
+		 	cmd(stack_a, stack_b, "ra");
+		else
+			cmd(stack_a, stack_b, "rra");
+	}
+}
+
 void	case_select(l_list **stack_a, l_list **stack_b)
 {
 	l_list	*low;
@@ -305,23 +241,19 @@ void	case_select(l_list **stack_a, l_list **stack_b)
 	if ((*stack_b)->order > high->order)
 	{	
 		//printf("Choice 1\n");
-		while ((*stack_a) != low)
-			cmd(stack_a, stack_b, "ra");
+		chaser(stack_a, stack_b, low);
 		push(stack_b, stack_a, "pa");
 	}
 	else if (low->order > (*stack_b)->order)
 	{
 		//printf("Choice 2\n");
-		
-		while ((*stack_a)->order != low->order)
-			cmd(stack_a, stack_b, "ra");
+		chaser(stack_a, stack_b, low);
 		push(stack_b, stack_a, "pa");
 	}
 	else
 	{
 		//printf("Choice 3\n");
-		while ((*stack_a)->order < (*stack_b)->order || last_check(stack_a, (*stack_b)->order) != 0)
-			cmd(stack_a, stack_b, "ra");
+		middle_chase(stack_a, stack_b);
 		push(stack_b, stack_a, "pa");
 	}
 }
@@ -329,27 +261,25 @@ void	case_select(l_list **stack_a, l_list **stack_b)
 void	big_sort(l_list **stack_a, l_list **stack_b)
 {
 	ordering(stack_a);
-	//push(stack_a, stack_b, "pb");
 	b_filler(stack_a, stack_b);
 	small_sort(stack_a, stack_b);
 	//printf(" -----------\ndone small sort\n -----------\n");
 	while(*stack_b)
 	//Printer
 	{
-		
 	// 	l_list	*begin;
 	// begin = *stack_a;
 	// printf("________________________\n");
 	// while (begin)
 	// {
-	// 	printf("a = %d\n", begin->data);
+	// 	printf("a = %ld\n", begin->data);
 	// 	printf("a->order = %d\n", begin->order);
 	// 	begin = begin->next;
 	// }
 	// begin = *stack_b;
 	// while (begin)
 	// {
-	// 	printf("b = %d\n", begin->data);
+	// 	printf("b = %ld\n", begin->data);
 	// 	begin = begin->next;
 	// }
 	// printf("________________________\n");

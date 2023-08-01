@@ -295,3 +295,44 @@ void	b_filler(l_list	**stack_a, l_list **stack_b)
 		//	push(stack_a, stack_b, "pb");
 	}
 }
+
+--------------------------------XXXX-------------------------------------------
+void	middle_chase(l_list **stack_a, l_list **stack_b)
+{
+	l_list	*temp;
+	l_list	*comp;
+	l_list	*last;
+	int		i;
+
+	temp = *stack_a;
+	i = 0;
+	last = get_last(*stack_a);
+	if ((*stack_a)->order > (*stack_b)->order && last->order < (*stack_b)->order)
+		return;
+	while (temp->next->next && !((temp->order < (*stack_b)->order)
+		&& (temp->next->order > (*stack_b)->order)))
+	{
+		temp = temp->next;
+		i++;	
+	}
+	//printf("entered if and temp->order is %d, temp->next_order is %d and stack_b->order is %d\n", temp->order, temp->next->order, (*stack_b)->order);
+	comp = temp->next;
+	//printf("comp->order is %d\n", comp->order);
+	while ((*stack_a) != comp)
+	{
+		if (/*(*stack_a)->order - comp->order*/ i  <= list_size(*stack_b) / 2)
+		{
+		 	//printf("entered the middle case and did rra\n");
+		 	cmd(stack_a, stack_b, "rra");
+		}
+		else
+		{
+			//printf("entered the middle case and did ra\n");
+			cmd(stack_a, stack_b, "ra");
+		}
+	}
+	// if (((*stack_a)->order > (*stack_b)->order && last_check(stack_a, (*stack_b)->order) == 0))
+	// 	printf("right placement\n");
+	// else
+	// 	printf("Wrong placement\n");
+}

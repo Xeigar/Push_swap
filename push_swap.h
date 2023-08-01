@@ -6,7 +6,7 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 16:43:05 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/07/20 17:37:17 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/07/30 01:40:08 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@
 
 typedef struct f_list
 {
-	long		data;
-	int		order;
+	long			data;
+	int				order;
+	int				price;
 	struct f_list	*next;
 }	l_list;
 
