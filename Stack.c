@@ -1,302 +1,4 @@
-/**This function finds the position of the closest number of the partition
-and sends it to stack_b with the least amount of move**/
-void	finder_pusher(l_list **stack_a, l_list **stack_b, int partition)
-{
-	l_list	*temp;
-	int		a;
-	int		b;
-
-	temp = *stack_a;
-	a = 0;
-	b = 0;
-	while (temp)
-	{
-		if (a == 0 && temp->order <= partition)	
-			a = temp->order;
-		if (temp->order < partition)
-			b = temp->order;
-		temp = temp->next;
-	}
-	printf(" a = %d\n", a);
-	if (a <= (list_size(*stack_a) - b))
-	{
-		while ((*stack_a)->order != a)
-			cmd(stack_a, stack_b, "rra");
-	}
-	else
-	{
-		while ((*stack_a)->order != b)
-			cmd(stack_a, stack_b, "ra");
-	}
-	push(stack_a, stack_b, "pb");
-}
-
-____________________________________X________________________________________
-
-void	big_sort(l_list **stack_a, l_list **stack_b)
-{
-	//l_list	*temp;
-	int		partition;
-	int		counter;
-	int		runner;
-
-	//temp = *stack_a;
-	ordering(stack_a);
-	if (list_size(*stack_a) <= 100)
-		partition = 4;
-	else
-		partition = 8;
-	runner = 0;
-	while (++runner < partition)
-	{
-		counter = -1;
-		printf("%d\n", list_size(*stack_a)/ partition);
-		while (++counter < ((list_size(*stack_a)/ partition) * runner))
-			finder_pusher(stack_a, stack_b, list_size(*stack_a)/ partition); /*Need to
-			to revise the partition variable it is not working in the finder_pusher*/
-	}
-}
-
-____________________________________X________________________________________
-
-void	big_sort(l_list **stack_a, l_list **stack_b)
-{
-
-	ordering(stack_a);
-	push(stack_a, stack_b, "pb");
-	push(stack_a, stack_b, "pb");
-	while (list_size(*stack_a) != 3)
-	{
-		if ((*stack_a)->order < (*stack_b)->order)
-		{
-			cmd(stack_a, stack_b, "rra");
-			push(stack_a, stack_b, "pb");
-		}
-		else
-			push(stack_a, stack_b, "pb");
-	}
-	small_sort(stack_a, stack_b);
-	printf(" -----------\ndone small sort\n -----------\n");
-	while(*stack_b)
-	{
-		if ((*stack_a)->order > (*stack_b)->order)
-		{
-			push(stack_b, stack_a, "pa");
-		}
-		else
-		{
-			while ((*stack_a)->order < (*stack_b)->order && (*stack_a)->next->order > (*stack_b)->order)
-				cmd(stack_a, stack_b, "rra");
-			push(stack_b, stack_a, "pa");	
-		}
-	}
-}
-_____________________________________X________________________________________
-
-/*Optimize the pushing to B part of the function by working with Max
-and Min, as well as count the number of rrb and rb*/
-void	b_filler(l_list	**stack_a, l_list **stack_b)
-{
-	
-	while (list_size(*stack_a) != 3)
-	{
-		if ((*stack_a)->order < (*stack_b)->order)
-			cmd(stack_a, stack_b, "rrb");
-		else
-			push(stack_a, stack_b, "pb");
-		if (!(*stack_b)->next)
-			push(stack_a, stack_b, "pb");
-	}
-}
-
-int	last_check(l_list **stack_a, int order)
-{
-	l_list	*temp;
-
-	temp = *stack_a;
-	while (temp->next)
-		temp = temp->next;
-	printf("last stack a value = %d and order = %d\n", temp->data, temp->order);
-	if (temp->order > order)
-		return (1);
-	return (0);
-}
-
-void	big_sort(l_list **stack_a, l_list **stack_b)
-{
-	ordering(stack_a);
-	push(stack_a, stack_b, "pb");
-	b_filler(stack_a, stack_b);
-	small_sort(stack_a, stack_b);
-	printf(" -----------\ndone small sort\n -----------\n");
-	while(*stack_b)
-	{
-		
-		l_list	*begin;
-	begin = *stack_a;
-	printf("________________________\n");
-	while (begin)
-	{
-		printf("a = %d\n", begin->data);
-		printf("a->order = %d\n", begin->order);
-		begin = begin->next;
-	}
-	begin = *stack_b;
-	while (begin)
-	{
-		printf("b = %d\n", begin->data);
-		begin = begin->next;
-	}
-	printf("________________________\n");
-	
-		l_list	*low;
-		l_list	*high;
-
-		low = find_lowest(*stack_a);
-		high = find_highest (*stack_a);
-		if ((*stack_b)->order > high->order)
-		{	
-			while ((*stack_a) != high)
-				cmd(stack_a, stack_b, "ra");
-			push(stack_b, stack_a, "pa");
-		}
-		else if (low->order > (*stack_b)->order)
-		{
-			while ((*stack_a)->order != low->order)
-				cmd(stack_a, stack_b, "ra");
-			push(stack_b, stack_a, "pa");
-		}
-		else
-		{
-			while ((*stack_a)->order > (*stack_b)->order && last_check(stack_a, (*stack_b)->order))
-				cmd(stack_a, stack_b, "ra");
-			push(stack_b, stack_a, "pa");
-		}
-	}
-	//while ((*stack_a)->order != 1)
-	//	cmd(stack_a, stack_b, "rra");
-}
-
-________________________________________X____________________________________
-
-long	ft_long_atoi(const char *nptr)
-{
-	long	i;
-	long	neg;
-
-	i = 0;
-	neg = 1;
-	while (*nptr == 32 || (*nptr >= 9 && *nptr <= 13))
-		nptr++;
-	if (*nptr == '-' || *nptr == '+')
-	{
-		if (*nptr == '-')
-			neg *= (-1);
-		nptr++;
-	}
-	if (!(*nptr >= '0' && *nptr <= '9'))
-		return (-2147483649);
-	while (*nptr)
-	{
-		if (!(*nptr >= '0' && *nptr <= '9'))
-			return (-2147483649);
-		i = i * 10 + (*nptr - 48);
-		nptr++;
-	}
-	return (i * neg);
-}
-
-______________________________________X______________________________________
-
-long_atoi_v1
-
-long	ft_long_atoi(const char *nptr)
-{
-	long	i;
-	long	neg;
-
-	i = 0;
-	neg = 1;
-	while (*nptr == 32 || (*nptr >= 9 && *nptr <= 13))
-		nptr++;
-	if (*nptr == '-' || *nptr == '+')
-	{
-		if (*nptr == '-')
-			neg *= (-1);
-		nptr++;
-	}
-	if (*nptr >= '0' && *nptr <= '9')
-	{
-		while (*nptr >= '0' && *nptr <= '9')
-		{
-			i = i * 10 + (*nptr - 48);
-			nptr++;
-		}
-	}
-	else
-		return (-2147483649);
-	return (i * neg);
-}
-________________________________________X____________________________________
-V.1
-void	b_filler(l_list	**stack_a, l_list **stack_b)
-{
-	l_list	*low;
-	l_list	*high;
-
-	low = find_lowest(*stack_b);
-	high = find_highest (*stack_b);
-	while (list_size(*stack_a) != 3)
-	{
-		if ((*stack_a)->order > high->order)
-		{
-			while ((*stack_b) != high)
-				cmd(stack_a, stack_b, "rb");
-			push(stack_a, stack_b, "pb");
-		}
-		else if (low->order > (*stack_a)->order)
-		{
-			while ((*stack_b)->order != low->order)
-				cmd(stack_a, stack_b, "rb");
-			push(stack_a, stack_b, "pb");
-		}
-		else
-			push(stack_a, stack_b, "pb");
-		if (!(*stack_b)->next)
-			push(stack_a, stack_b, "pb");
-	}
-}
-
-______________________________________X____________________________________________
-void	b_filler(l_list	**stack_a, l_list **stack_b)
-{
-	l_list	*low;
-	l_list	*high;
-
-	low = find_lowest(*stack_b);
-	high = find_highest (*stack_b);
-	while (list_size(*stack_a) != 3)
-	{
-/* 		if ((*stack_a)->order > high->order)
-		{
-			while ((*stack_b) != high)
-				chaser(stack_a, stack_b, high);
-			push(stack_a, stack_b, "pb");
-		}
-		else if (low->order > (*stack_a)->order)
-		{
-			while ((*stack_b)->order != low->order)
-				chaser(stack_a, stack_b, low);
-			push(stack_a, stack_b, "pb");
-		} */
-		//else
-		push(stack_a, stack_b, "pb");
-		//if (!(*stack_b)->next)
-		//	push(stack_a, stack_b, "pb");
-	}
-}
-
---------------------------------XXXX-------------------------------------------
+//This function has a problem sorting, it puts a bigger bar above a smaller one
 void	middle_chase(l_list **stack_a, l_list **stack_b)
 {
 	l_list	*temp;
@@ -315,24 +17,102 @@ void	middle_chase(l_list **stack_a, l_list **stack_b)
 		temp = temp->next;
 		i++;	
 	}
-	//printf("entered if and temp->order is %d, temp->next_order is %d and stack_b->order is %d\n", temp->order, temp->next->order, (*stack_b)->order);
 	comp = temp->next;
-	//printf("comp->order is %d\n", comp->order);
 	while ((*stack_a) != comp)
 	{
-		if (/*(*stack_a)->order - comp->order*/ i  <= list_size(*stack_b) / 2)
-		{
-		 	//printf("entered the middle case and did rra\n");
-		 	cmd(stack_a, stack_b, "rra");
-		}
+		if (i  <= list_size(*stack_a) / 2)
+		 	cmd(stack_a, stack_b, "ra");
 		else
-		{
-			//printf("entered the middle case and did ra\n");
-			cmd(stack_a, stack_b, "ra");
-		}
+			cmd(stack_a, stack_b, "rra");
 	}
-	// if (((*stack_a)->order > (*stack_b)->order && last_check(stack_a, (*stack_b)->order) == 0))
-	// 	printf("right placement\n");
-	// else
-	// 	printf("Wrong placement\n");
 }
+
+void	chaser(l_list **stack_a, l_list **stack_b, l_list *comp)
+{
+	l_list	*temp;
+	int		i;
+
+ 	temp = *stack_a;
+	i = 0;
+	while (temp != comp)
+	{
+		temp = temp->next;
+		i++;
+	}
+	while ((*stack_a) != comp)
+	{
+		if (i <= list_size(*stack_a) / 2)
+			cmd(stack_a, stack_b, "ra");
+		else
+			cmd(stack_a, stack_b, "rra");
+	}
+}
+
+void	case_select(l_list **stack_a, l_list **stack_b)
+{
+	l_list	*low;
+	l_list	*high;
+
+	low = find_lowest(*stack_a);
+	high = find_highest (*stack_a);
+	if ((*stack_b)->order > high->order)
+	{	
+		//printf("Choice 1\n");
+		chaser(stack_a, stack_b, low);
+		push(stack_b, stack_a, "pa");
+	}
+	else if (low->order > (*stack_b)->order)
+	{
+		//printf("Choice 2\n");
+		chaser(stack_a, stack_b, low);
+		push(stack_b, stack_a, "pa");
+	}
+	else
+	{
+		//printf("Choice 3\n");
+		middle_chase(stack_a, stack_b);
+		push(stack_b, stack_a, "pa");
+	}
+}
+
+
+____________________________________________XXX______________________________
+
+l_list	*calculator(l_list *stack_a, l_list *stack_b)
+{
+	int		position;
+	int		place;
+	l_list	*temp;
+	l_list	*a;
+	l_list	*cheapest;
+	
+	temp = stack_b;
+	cheapest = NULL;
+	position = 0;
+	while(temp)
+	{
+		a = stack_a;
+		place = 0;
+		while (a->next->next && !((a->order < temp->order)
+			&& (a->next->order > temp->order)))
+		{
+			place++;
+			a = a->next;
+		}
+		if (position  <= list_size(stack_b) / 2 && place >= list_size(stack_a) + position)
+			temp->price = position + (list_size(stack_a) - place);
+		else if (position  > list_size(stack_b) / 2 && place < list_size(stack_a) + position)
+			temp->price = place + (list_size(stack_a) - position);
+		else if (position  > list_size(stack_b) && position >= place)
+			temp->price = position;
+		else
+			temp->price = place;
+		if (!cheapest || temp->price < cheapest->price)
+			cheapest = temp;
+		temp = temp->next;
+		position++;
+	}
+	return (cheapest);
+}
+
+
