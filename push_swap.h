@@ -6,7 +6,7 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 16:43:05 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/07/30 01:40:08 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/08/05 18:50:10 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,15 @@ typedef struct f_list
 	long			data;
 	int				order;
 	int				price;
+	struct f_list	*place;
 	struct f_list	*next;
 }	l_list;
+
+typedef struct t_list
+{
+	int	a_size;
+	int	b_size;
+}	s_list;
 
 /*Aux functions*/
 long	ft_long_atoi(const char *nptr);

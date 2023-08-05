@@ -6,7 +6,7 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 18:25:38 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/07/30 01:40:43 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/08/05 18:27:32 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ l_list	*ft_newnode(int content)
 	p->order = -1;
 	p->price = -1;
 	p->next = NULL;
+	p->place = NULL;
 	return (p);
 }
 
