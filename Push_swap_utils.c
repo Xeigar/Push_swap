@@ -6,7 +6,7 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 19:58:46 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/08/05 19:46:47 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/08/06 19:34:51 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	occur(l_list **stack, int middle_value, int *i, int *j)
 		else
 			first = 1;
 		if (temp->order <= middle_value)
-			*j = -1;
+			*j = 0;
 		temp = temp->next;
 		*j = *j + 1;
 	}
@@ -88,7 +88,7 @@ void	find_next(l_list **stack, int middle_value)
 	i = 0;
 	j = 0;
 	occur(stack, middle_value, &i, &j);
-	if (i <= (j + 1))
+	if (i <= j)
 		cmd(stack, NULL, "ra");
 	else
 		cmd(stack, NULL, "rra");
@@ -100,7 +100,7 @@ void	b_filler(l_list	**stack_a, l_list **stack_b)
 {
 	int	counter;
 	int middle_value;
-	
+
 	middle_value = list_size(*stack_a) / 2; // 5 
 	while (list_size(*stack_a) > 2)
 	{
@@ -223,6 +223,12 @@ void	case_select(l_list **stack_a, l_list **stack_b, l_list *cheapest, s_list *s
 		b++;
 		temp = temp->next;
 	}
+	if (a == 1 && b == 0)
+	{
+		push(stack_b, stack_a, "pa");
+		cmd(stack_a, stack_b, "sa");
+		return;
+	}
 	if (a >= stats->a_size / 2 && b >= stats->b_size / 2)
 	{
 		while (*stack_a != cheapest->place
@@ -249,6 +255,7 @@ void	case_select(l_list **stack_a, l_list **stack_b, l_list *cheapest, s_list *s
 		else
 			cmd(stack_a, stack_b, "rrb");
 	}
+	push(stack_b, stack_a, "pa");
 }
 
 void    calculator(l_list *stack_a, l_list *stack_b, l_list **cheapest, s_list *stats)
@@ -270,39 +277,37 @@ void    calculator(l_list *stack_a, l_list *stack_b, l_list **cheapest, s_list *
 			place++;
 			runner = runner->next;
 		}
-		// if (position <= stats->b_size)
-		// 	temp->price = position;
-		// else
-		// 	temp->price = stats->b_size - position;
-		if (position <= stats->b_size && place <= stats->a_size)
+		if (position <= stats->b_size / 2 && place <= stats->a_size / 2)
 		{
 			if (place > position)
 				temp->price = place;
 			else
 				temp->price = position;
 		}
-		else if (position > stats->b_size && place > stats->a_size)
+		else if (position > stats->b_size / 2 && place > stats->a_size / 2)
 		{
 			if ((stats->a_size - place) > (stats->b_size - position))
-				temp->price = place;
+				temp->price = (stats->a_size - place);
 			else
-				temp->price = position;
-		}
-		else if (position > stats->b_size && place <= stats->a_size)
-		{
-			if (place > (stats->b_size - position))
-				temp->price = place;
-			else
-				temp->price = position;
+				temp->price = (stats->b_size - position);
 		}
 		else
 		{
-			if (stats->a_size - place > position)
-				temp->price = place;
+			if (position < place)
+			{
+				if ((stats->a_size - place) > position)
+					temp->price = place;
+				else
+					temp->price = position;
+			}
 			else
-				temp->price = position;
+			{
+				if ((stats->b_size - position) > place)
+					temp->price = position;
+				else
+					temp->price = place;
+			}
 		}
-
 		if (!*cheapest || (*cheapest)->price >= temp->price)
 			*cheapest = temp;
 		temp = temp->next;
@@ -344,7 +349,6 @@ void	big_sort(l_list **stack_a, l_list **stack_b)
 		cheapest = NULL;
 		calculator(*stack_a, *stack_b, &cheapest, &stats);
 		case_select(stack_a, stack_b, cheapest, &stats);
-		push(stack_b, stack_a, "pa");
 	}
 	finalizer(stack_a);
 }
