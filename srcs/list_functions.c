@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   List_functions.c                                   :+:      :+:    :+:   */
+/*   list_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 18:25:38 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/08/05 18:27:32 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/08/07 04:40:01 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	ft_lstclearer(l_list **lst)
+void	ft_lstclearer(t_stack **lst)
 {
-	l_list	*next;
-	l_list	*current;
+	t_stack	*next;
+	t_stack	*current;
 
 	if (!lst || !*lst)
 		return ;
@@ -29,9 +29,9 @@ void	ft_lstclearer(l_list **lst)
 	*lst = current;
 }
 
-void	ft_lstadd(l_list **lst, l_list *new)
+void	ft_lstadd(t_stack **lst, t_stack *new)
 {
-	l_list	*current;
+	t_stack	*current;
 
 	if (!*lst)
 	{
@@ -46,11 +46,11 @@ void	ft_lstadd(l_list **lst, l_list *new)
 	current->next = new;
 }
 
-l_list	*ft_newnode(int content)
+t_stack	*ft_newnode(int content)
 {
-	l_list	*p;
+	t_stack	*p;
 
-	p = (l_list *)malloc(sizeof(*p));
+	p = (t_stack *)malloc(sizeof(*p));
 	if (!p)
 		return (NULL);
 	p->data = content;
@@ -61,12 +61,12 @@ l_list	*ft_newnode(int content)
 	return (p);
 }
 
-l_list	*list_create(int argc, char **argv)
+t_stack	*list_create(int argc, char **argv)
 {
-	int			i;
-	long		num;
-	l_list	*current;
-	l_list	*tracker;
+	int		i;
+	long	num;
+	t_stack	*current;
+	t_stack	*tracker;
 
 	i = 0;
 	current = NULL;
@@ -81,7 +81,7 @@ l_list	*list_create(int argc, char **argv)
 	return (current);
 }
 
-int	list_size(l_list *list)
+int	list_size(t_stack *list)
 {
 	int	i;
 

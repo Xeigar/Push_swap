@@ -6,46 +6,46 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:45:27 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/07/08 18:36:49 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/08/07 04:41:36 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	swap(l_list **list)
+void	swap(t_stack **list)
 {
-	l_list *temp;
+	t_stack	*temp;
 
 	if (!(*list)->next)
-		return;
+		return ;
 	temp = (*list)->next;
 	(*list)->next = temp->next;
 	temp->next = (*list);
 	(*list) = temp;
 }
 
-void	rotate(l_list	**list)
+void	rotate(t_stack	**list)
 {
-	l_list	*temp;
-	l_list	*last;
+	t_stack	*temp;
+	t_stack	*last;
 
 	if (!(*list)->next)
-		return;
+		return ;
 	temp = *list;
 	*list = (*list)->next;
 	last = *list;
 	while (last->next)
 		last = last->next;
-	last->next = temp;	
+	last->next = temp;
 	temp->next = NULL;
 }
 
-void	rrotate(l_list	**list)
+void	rrotate(t_stack	**list)
 {
-	l_list	*last;
+	t_stack	*last;
 
 	if (!(*list)->next)
-		return;
+		return ;
 	last = *list;
 	while (last->next->next)
 		last = last->next;
@@ -54,9 +54,9 @@ void	rrotate(l_list	**list)
 	last->next = NULL;
 }
 
-void	push(l_list **src, l_list **dest, char *stack)
+void	push(t_stack **src, t_stack **dest, char *stack)
 {
-	l_list	*temp;
+	t_stack	*temp;
 
 	temp = *src;
 	*src = (*src)->next;
@@ -66,9 +66,9 @@ void	push(l_list **src, l_list **dest, char *stack)
 	ft_putstr_fd("\n", 1);
 }
 
-void	cmd(l_list **stack_a, l_list **stack_b, char *move)
+void	cmd(t_stack **stack_a, t_stack **stack_b, char *move)
 {
-	void (*func)(l_list **);
+	void	(*func)(t_stack **);
 
 	if (move[0] == 's')
 		func = &swap;

@@ -6,45 +6,11 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 19:53:18 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/08/01 19:54:55 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/08/07 04:39:44 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-int	repeat_or_digit(int argc, char **argv, l_list *stack_a)
-{
-	int	i;
-	int	k;
-	l_list	*pos;
-	l_list	*runner;
-
-	i = 0;
-	pos = stack_a;
-	while (pos)
-	{
-		runner = stack_a;
-		while (runner)
-		{
-			if (runner->data == pos->data && 
-				runner != pos)
-				return (-1);
-			runner = runner->next;
-		}
-		pos = pos->next;
-	}
-	while (++i < argc)
-	{
-		k = -1;
-		while (argv[i][++k])
-		{
-			if (ft_isdigit(argv[i][k]) ==  0
-				&& (argv[i][k] != '+' && argv[i][k] != '-'))
-				return (-1);
-		}
-	}
-	return (0);
-}
 
 long	ft_long_atoi(const char *nptr)
 {
@@ -73,7 +39,7 @@ long	ft_long_atoi(const char *nptr)
 	return (i * neg);
 }
 
-int	is_sorted(l_list *list)
+int	is_sorted(t_stack *list)
 {
 	while (list->next)
 	{
@@ -84,9 +50,9 @@ int	is_sorted(l_list *list)
 	return (1);
 }
 
-l_list	*find_highest(l_list *stack)
+t_stack	*find_highest(t_stack *stack)
 {
-	l_list	*highest;
+	t_stack	*highest;
 
 	highest = stack;
 	while (stack)
@@ -98,9 +64,9 @@ l_list	*find_highest(l_list *stack)
 	return (highest);
 }
 
-l_list	*find_lowest(l_list *stack)
+t_stack	*find_lowest(t_stack *stack)
 {
-	l_list	*lowest;
+	t_stack	*lowest;
 
 	lowest = stack;
 	while (stack)
