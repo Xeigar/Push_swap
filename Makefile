@@ -6,18 +6,19 @@
 #    By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/26 20:01:35 by tmoutinh          #+#    #+#              #
-#    Updated: 2023/08/07 05:04:41 by tmoutinh         ###   ########.fr        #
+#    Updated: 2023/08/10 14:38:22 by tmoutinh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = push_swap
 
-NAME_BONUS = pipex_bonus
+NAME_BONUS = checker
 
 SRCS = srcs/push_swap.c srcs/push_swap_utils.c srcs/moves.c srcs/move_selector.c \
-	srcs/move_calculator.c srcs/loader.c srcs/list_functions.c srcs/aux.c
+	srcs/move_calculator.c srcs/loader.c srcs/list_functions.c srcs/aux.c srcs/main.c
 	
-SRCS_BONUS =
+SRCS_BONUS = bonus/checker.c bonus/move_list.c srcs/push_swap.c srcs/aux.c \
+	srcs/list_functions.c srcs/moves.c
 
 FLAGS = -Wall -Werror -Wextra -g
 
@@ -34,7 +35,7 @@ OBJS = $(SRCS:.c=.o)
 OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 
 %.o:%.c
-		${CC} ${FLAGS} -c $< -o srcs/$(@F)
+	${CC} ${FLAGS} -c $< -o srcs/$(@F)
 
 $(NAME): $(OBJS)
 	#make -C $(LIBFT_PATH)
@@ -57,8 +58,8 @@ re: fclean all
 
 bonus: $(NAME_BONUS)
 
-$(NAME_BONUS): $(OBJS_BONUS)
-	make -C $(LIBFT_PATH)
+$(NAME_BONUS): $(OBJS)
+	#make -C $(LIBFT_PATH)
 	$(CC) $(FLAGS) $(OBJS_BONUS) $(LIBFT) -o $(NAME_BONUS)
 
 .PHONY:all clean fclean re bonus
