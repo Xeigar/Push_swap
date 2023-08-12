@@ -6,7 +6,7 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 05:11:22 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/08/11 02:15:11 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/08/12 13:11:36 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	action(t_stack **a, t_stack **b, char *line)
 	else if (!ft_strncmp(line, "ss", 3))
 		swap_both(a, b);
 	ft_putstr_fd(line, 1);
+	ft_putchar_fd('\n', 1);
 }
 
 int	check_command(char *line)
