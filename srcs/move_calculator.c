@@ -6,7 +6,7 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 03:26:15 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/08/07 04:40:32 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/08/14 14:56:44 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	opposite(t_stack *temp, t_stats *stats, int place, int position)
 			temp->price = (stats->b_size - position);
 		else
 			temp->price = place;
-	}	
+	}
 }
 
 void	price_selector(t_stack *temp, t_stats *stats, int place, int position)

@@ -6,7 +6,7 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 16:42:51 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/08/08 00:03:18 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/08/14 14:56:31 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,3 @@ int	digit(int argc, char **argv)
 	}
 	return (0);
 }
-

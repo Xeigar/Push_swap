@@ -6,7 +6,7 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 05:11:22 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/08/12 13:11:36 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/08/14 15:57:33 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ void	action(t_stack **a, t_stack **b, char *line)
 		swap(b);
 	else if (!ft_strncmp(line, "ss", 3))
 		swap_both(a, b);
-	ft_putstr_fd(line, 1);
-	ft_putchar_fd('\n', 1);
 }
 
 int	check_command(char *line)
@@ -61,7 +59,7 @@ int	check_command(char *line)
 	return (-1);
 }
 
-void	checker(t_stack *stack_a, t_stack *stack_b)
+void	checker(t_stack **stack_a, t_stack **stack_b)
 {
 	char	*line;
 	char	c;
@@ -79,10 +77,10 @@ void	checker(t_stack *stack_a, t_stack *stack_b)
 			if (check_command(line) != 0)
 			{
 				free(line);
-				error_exit(&stack_a, &stack_b);
+				error_exit(stack_a, stack_b);
 			}
 			i = -1;
-			action(&stack_a, &stack_b, line);
+			action(stack_a, stack_b, line);
 		}
 		else
 			line[++i] = c;
@@ -97,9 +95,9 @@ int	main(int argc, char **argv)
 
 	stack_a = list_create(argc, argv);
 	stack_b = NULL;
-	if (repeat(stack_a) || digit(argc, argv) == -1)
+	if (repeat(stack_a) == -1 || digit(argc, argv) == -1)
 		error_exit(&stack_a, &stack_b);
-	checker(stack_a, stack_b);
+	checker(&stack_a, &stack_b);
 	if (is_sorted(stack_a) == 1 && !stack_b)
 		ft_putstr_fd("OK\n", 1);
 	else

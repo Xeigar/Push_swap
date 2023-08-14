@@ -1,35 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/08 00:02:53 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/08/14 15:51:04 by tmoutinh         ###   ########.fr       */
+/*   Created: 2023/04/11 14:38:43 by tmoutinh          #+#    #+#             */
+/*   Updated: 2023/04/11 19:13:22 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
-/*Check if it is ok to leave message*/
-int	main(int argc, char **argv)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	t_stack	*stack_a;
-	t_stack	*stack_b;
+	size_t			i;
+	unsigned char	*sv1;
+	unsigned char	*sv2;
 
-	if (argc < 2)
-		return (1);
-	stack_a = list_create(argc, argv);
-	stack_b = NULL;
-	if (repeat(stack_a) == -1 || digit(argc, argv) == -1)
-		exit_error(stack_a);
-	if (is_sorted(stack_a) == 1)
+	i = 0;
+	sv1 = (unsigned char *) s1;
+	sv2 = (unsigned char *) s2;
+	while (i < n)
 	{
-		ft_lstclearer(&stack_a);
-		return (2);
+		if (*sv1 != *sv2)
+			return (*sv1 - *sv2);
+		sv1++;
+		sv2++;
+		i++;
 	}
-	push_swap(&stack_a, &stack_b);
-	ft_lstclearer(&stack_a);
 	return (0);
 }
+
+/*
+#include <stdio.h>
+int main()
+{
+	printf("%d\n", ft_memcmp("", "as", 4));
+	return 0;
+}*/

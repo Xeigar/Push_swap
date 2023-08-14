@@ -1,35 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/08 00:02:53 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/08/14 15:51:04 by tmoutinh         ###   ########.fr       */
+/*   Created: 2023/04/11 14:33:08 by tmoutinh          #+#    #+#             */
+/*   Updated: 2023/04/11 19:40:15 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
-
-/*Check if it is ok to leave message*/
-int	main(int argc, char **argv)
+int	ft_isprint(int c)
 {
-	t_stack	*stack_a;
-	t_stack	*stack_b;
-
-	if (argc < 2)
+	if (c >= 32 && c < 127)
 		return (1);
-	stack_a = list_create(argc, argv);
-	stack_b = NULL;
-	if (repeat(stack_a) == -1 || digit(argc, argv) == -1)
-		exit_error(stack_a);
-	if (is_sorted(stack_a) == 1)
-	{
-		ft_lstclearer(&stack_a);
-		return (2);
-	}
-	push_swap(&stack_a, &stack_b);
-	ft_lstclearer(&stack_a);
 	return (0);
 }
+
+/*
+#include <stdio.h>
+int main(void)
+{
+	printf("%d\n", ft_isprint(a));
+	printf("%d\n", ft_isprint( ));
+	printf("%d\n", ft_isprint(	));
+	return 0;
+}
+*/

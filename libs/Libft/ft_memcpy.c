@@ -1,35 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/08 00:02:53 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/08/14 15:51:04 by tmoutinh         ###   ########.fr       */
+/*   Created: 2023/04/11 14:39:02 by tmoutinh          #+#    #+#             */
+/*   Updated: 2023/04/11 19:33:34 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
-/*Check if it is ok to leave message*/
-int	main(int argc, char **argv)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	t_stack	*stack_a;
-	t_stack	*stack_b;
+	size_t	i;
 
-	if (argc < 2)
-		return (1);
-	stack_a = list_create(argc, argv);
-	stack_b = NULL;
-	if (repeat(stack_a) == -1 || digit(argc, argv) == -1)
-		exit_error(stack_a);
-	if (is_sorted(stack_a) == 1)
+	if (!src && !dest)
+		return (NULL);
+	i = 0;
+	while (i < n)
 	{
-		ft_lstclearer(&stack_a);
-		return (2);
+		((char *) dest)[i] = ((char *)src)[i];
+		i++;
 	}
-	push_swap(&stack_a, &stack_b);
-	ft_lstclearer(&stack_a);
+	return (dest);
+}
+
+/*
+#include <stdio.h>
+int main(void)
+{
+	char src[50] = "mahmudulhasanjony";
+	char dest[50];
+	char *ret;
+
+	ret = ft_memcpy(dest, src, 9);
+	printf("%s", ret);
 	return (0);
 }
+*/

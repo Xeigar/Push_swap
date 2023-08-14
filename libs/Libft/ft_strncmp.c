@@ -1,35 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/08 00:02:53 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/08/14 15:51:04 by tmoutinh         ###   ########.fr       */
+/*   Created: 2023/04/11 14:56:25 by tmoutinh          #+#    #+#             */
+/*   Updated: 2023/04/11 19:25:39 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
-/*Check if it is ok to leave message*/
-int	main(int argc, char **argv)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	t_stack	*stack_a;
-	t_stack	*stack_b;
+	size_t	i;
 
-	if (argc < 2)
-		return (1);
-	stack_a = list_create(argc, argv);
-	stack_b = NULL;
-	if (repeat(stack_a) == -1 || digit(argc, argv) == -1)
-		exit_error(stack_a);
-	if (is_sorted(stack_a) == 1)
+	i = 0;
+	if (!n && (!*s1 || !*s2))
+		return (0);
+	while ((s1[i] || s2[i]) && i < n)
 	{
-		ft_lstclearer(&stack_a);
-		return (2);
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
 	}
-	push_swap(&stack_a, &stack_b);
-	ft_lstclearer(&stack_a);
 	return (0);
 }
+
+/*int main()
+{
+		printf("%d\n", ft_strncmp("", "as", 4 * sizeof(char)));
+		return 0;
+}*/

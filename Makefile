@@ -6,7 +6,7 @@
 #    By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/26 20:01:35 by tmoutinh          #+#    #+#              #
-#    Updated: 2023/08/12 22:05:01 by tmoutinh         ###   ########.fr        #
+#    Updated: 2023/08/14 14:50:47 by tmoutinh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,19 +45,19 @@ $(SRCS_DIR)/%.o: $(SRCS_DIR)/%.c
 	$(CC) $(FLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
-	#make -C $(LIBFT_PATH)
+	make -C $(LIBFT_PATH)
 	$(CC) $(FLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 
 all: $(NAME)
 
 clean:
-	#make -C ${LIBFT_PATH} clean
+	make -C ${LIBFT_PATH} clean
 	$(RM) $(OBJS)
 	$(RM) $(OBJS_BONUS)
 
 fclean: clean
-	#make -C ${LIBFT_PATH} fclean
+	make -C ${LIBFT_PATH} fclean
 	${RM} ${NAME}
 	$(RM) $(NAME_BONUS)
 
@@ -66,7 +66,7 @@ re: fclean all
 bonus: $(NAME_BONUS)
 
 $(NAME_BONUS): $(OBJS_BONUS) $(OBJS)
-	#make -C $(LIBFT_PATH)
+	make -C $(LIBFT_PATH)
 	$(CC) $(FLAGS) $(OBJS_BONUS) $(LIBFT) -o $(NAME_BONUS)
 
 .PHONY:all clean fclean re bonus

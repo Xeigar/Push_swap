@@ -1,35 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/08 00:02:53 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/08/14 15:51:04 by tmoutinh         ###   ########.fr       */
+/*   Created: 2023/04/11 14:32:53 by tmoutinh          #+#    #+#             */
+/*   Updated: 2023/04/11 14:33:05 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
-
-/*Check if it is ok to leave message*/
-int	main(int argc, char **argv)
+int	ft_isdigit(int c)
 {
-	t_stack	*stack_a;
-	t_stack	*stack_b;
-
-	if (argc < 2)
+	if (c >= '0' && c <= '9')
 		return (1);
-	stack_a = list_create(argc, argv);
-	stack_b = NULL;
-	if (repeat(stack_a) == -1 || digit(argc, argv) == -1)
-		exit_error(stack_a);
-	if (is_sorted(stack_a) == 1)
-	{
-		ft_lstclearer(&stack_a);
-		return (2);
-	}
-	push_swap(&stack_a, &stack_b);
-	ft_lstclearer(&stack_a);
 	return (0);
 }
+
+/*
+#include <stdio.h>
+int main(void)
+{
+	printf("%d\n", ft_isdigit(a));
+	printf("%d\n", ft_isdigit(5));
+	printf("%d\n", ft_isdigit(*));
+	return 0;
+}
+*/
