@@ -6,7 +6,7 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 05:11:22 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/08/14 15:57:33 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/08/16 00:19:22 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ int	main(int argc, char **argv)
 
 	stack_a = list_create(argc, argv);
 	stack_b = NULL;
+	if (argc <= 2)
+		return (2);
 	if (repeat(stack_a) == -1 || digit(argc, argv) == -1)
 		error_exit(&stack_a, &stack_b);
 	checker(&stack_a, &stack_b);

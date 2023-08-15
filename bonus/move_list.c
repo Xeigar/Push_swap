@@ -6,7 +6,7 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 23:22:01 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/08/10 14:30:43 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/08/16 00:17:38 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	pusher(t_stack **src, t_stack **dest)
 {
 	t_stack	*temp;
 
+	if (!(*src))
+		error_exit(src, dest);
 	temp = *src;
 	*src = (*src)->next;
 	temp->next = *dest;
